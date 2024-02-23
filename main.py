@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from models.input import TextModel
@@ -10,9 +10,7 @@ from helpers.db import get_db
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",  # Allow localhost for development
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
