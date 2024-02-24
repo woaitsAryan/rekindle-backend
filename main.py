@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import FastAPI
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from models.input import TextModel
+from schema.input import TextModel
 from helpers.emotion_nlp import compute_emotion_and_save
 import threading
 from helpers.llm import get_llm_response
@@ -36,5 +36,18 @@ def get_journal(emotion: Optional[str] = None):
             rows = conn.execute("SELECT * FROM MyTable WHERE emotion1 = ? OR emotion2 = ? OR emotion3 = ?", (emotion, emotion, emotion)).fetchall()
         else:
             rows = conn.execute("SELECT * FROM MyTable").fetchall()
-    return {"rows": rows}
+
+    responsearr = []
+
+    for row in rows:
+        responsearr.append({
+            "text": row[1],
+            "emotion1": row[2],
+            "emotion2": row[3],
+            "emotion3": row[4],
+            "response": row[5],
+            "date": row[6]
+        })
+    
+    return {"response": responsearr}
 
