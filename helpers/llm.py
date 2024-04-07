@@ -2,15 +2,16 @@
 # import os
 # from dotenv import load_dotenv
 import ollama
+from sqlalchemy.orm import Session
 
 # load_dotenv()
 
-def get_llm_response(emotion: str) -> str:
+def get_llm_response(text: str) -> str:
     # client = OpenAI(
     # api_key=os.getenv("OPENAI_API_KEY"),
     # )
 
-    gpt_prompt = f"I am going to give you a story of the events I experienced today. Please try to be empathetic, compassionate, and provide advice, encouragement, and a have a chat with me on the same within 150 words. This is my story: {emotion}"
+    gpt_prompt = f"I am going to give you a story of the events I experienced today. Please try to be empathetic, compassionate, and provide advice, encouragement, and a have a chat with me on the same within 150 words. This is my story: {text}"
     
     # chat_completion = client.chat.completions.create(
     #     model="gpt-3.5-turbo",
@@ -30,4 +31,4 @@ def get_llm_response(emotion: str) -> str:
     ])
 
     # return chat_completion.choices[0].message.content # type: ignore
-    return responsellm['message']['content']
+    return responsellm['message']['content'] # type: ignore

@@ -1,24 +1,24 @@
-import sqlite3
-from contextlib import contextmanager
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
+from sqlalchemy.orm import sessionmaker
+from rekindle.models.user import Base
 
-@contextmanager
+url = URL.create(
+    drivername="postgresql",
+    username="postgres",
+    password="pgpass",
+    host="localhost",
+    port=5432,
+    database="postgres"
+)
+
 def get_db():
-    conn = sqlite3.connect('storage.db')
-    cursor = conn.cursor()
-
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS MyTable (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            text TEXT NOT NULL,
-            emotion1 TEXT NOT NULL,
-            emotion2 TEXT NOT NULL,
-            emotion3 TEXT NOT NULL,
-            response TEXT NOT NULL,
-            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-        );
-    ''')
-
+    engine = create_engine(url)
+    Session = sessionmaker(bind=engine)
+    Base.metadata.create_all(engine)
+    
+    db = Session()
     try:
-        yield conn
+        yield db
     finally:
-        conn.close()
+        db.close()
