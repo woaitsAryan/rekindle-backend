@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
+from typing_extensions import Optional
 
 class DayInput(BaseModel):
     text: str
@@ -13,4 +14,4 @@ class LoginModel(BaseModel):
     password: str = Field(..., min_length=8)
     
 class TokenData(BaseModel):
-    user_id: str | None = None
+    user_id: Optional[str] = None
