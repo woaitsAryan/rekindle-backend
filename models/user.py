@@ -1,8 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, ARRAY
 from sqlalchemy.orm import declarative_base, relationship
 from datetime import datetime
-import sys
-sys.path.append('..')
 
 Base = declarative_base()
 
@@ -16,6 +14,7 @@ class User(Base):
     days = relationship("Day", back_populates="user")
 
 class Day(Base):
+    __tablename__ = 'days'
     id = Column(Integer(), primary_key=True, index=True)
     text = Column(Text(), nullable=False)
     emotions = Column(ARRAY(String(20)), nullable=False)

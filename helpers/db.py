@@ -1,22 +1,14 @@
 from sqlalchemy import create_engine
-from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
-from rekindle.models.user import Base
 
-url = URL.create(
-    drivername="postgresql",
-    username="postgres",
-    password="pgpass",
-    host="localhost",
-    port=5432,
-    database="postgres"
-)
+from models.user import Base
+from helpers.envHandler import env_vars
+
+engine = create_engine(env_vars['DATABASE_URL'])
+Session = sessionmaker(bind=engine)
+Base.metadata.create_all(engine)
 
 def get_db():
-    engine = create_engine(url)
-    Session = sessionmaker(bind=engine)
-    Base.metadata.create_all(engine)
-    
     db = Session()
     try:
         yield db

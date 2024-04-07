@@ -1,9 +1,8 @@
 from fastapi import HTTPException
 from typing_extensions import Tuple
 from sqlalchemy.orm import Session
-import sys
-sys.path.append('..')
-from rekindle.models.user import Day
+
+from models.user import Day
 
 def compute_emotion_and_save(llm_response: str, body_text: str, db: Session, user_id: int):
     emotion = determine_emotion(body_text)
