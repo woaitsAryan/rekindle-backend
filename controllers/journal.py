@@ -3,8 +3,6 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import text
 from typing_extensions import Optional
 from sqlalchemy.orm import Session
-from fastapi.responses import JSONResponse
-
 from helpers.llm import get_llm_response
 from helpers.emotion_nlp import compute_emotion_and_save
 from helpers.db import get_db

@@ -4,7 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from controllers.auth import authRouter
 from controllers.journal import journalRouter
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import JSONResponse
+from controllers.user import userRouter
 
 app = FastAPI()
 
@@ -27,3 +28,4 @@ async def validation_exception_handler(request, exc):
 
 app.include_router(authRouter, prefix = "/auth", tags=["auth"])
 app.include_router(journalRouter, prefix = "/journal", tags=["journal"])
+app.include_router(userRouter, prefix="/user", tags = ["user"])
